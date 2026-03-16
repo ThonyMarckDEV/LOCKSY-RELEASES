@@ -1,119 +1,119 @@
 # 🔐 Locksy `v1.0.0`
 
-> **Zero-knowledge password manager. Your vault, your rules.**  
-> Built with React Native · .NET · AES-256-GCM
+> **Gestor de contraseñas zero-knowledge. Tu vault, tus reglas.**  
+> Construido con React Native · .NET · AES-256-GCM
 
 ---
 
-## ✦ What is Locksy?
+## ✦ ¿Qué es Locksy?
 
-Locksy is a personal password manager built on a **zero-knowledge architecture** — your master password never leaves your device. Every credential is encrypted client-side using AES-256-GCM before it ever touches a server.
+Locksy es un gestor de contraseñas personal construido sobre una arquitectura **zero-knowledge** — tu master password nunca sale de tu dispositivo. Cada credencial se cifra del lado del cliente con AES-256-GCM antes de llegar al servidor.
 
-No one can read your passwords. Not even us.
-
----
-
-## ✦ What's in this release
-
-### 🔒 Security
-- **AES-256-GCM** end-to-end encryption
-- **PBKDF2** key derivation from master password
-- **Zero-knowledge** architecture — server only stores ciphertext
-- **Screen capture protection** on credential detail view
-- **Biometric unlock** — Face ID / Fingerprint
-- **PIN lock** — 4-digit PIN with shuffled keypad on unlock screen
-- Auto-lock when app goes to background
-
-### 🗄️ Vault
-- Create, edit, delete encrypted credentials
-- Fields: site/app, username, password, category, notes
-- **Password strength indicator** (5-level bar)
-- **Password generator** — configurable length, uppercase, numbers, symbols
-- Favorite credentials with quick filter
-- Search across title and username
-- Filter by category
-
-### 🗂️ Categories
-- Create custom categories with name, icon (15 presets) and color (10 presets)
-- Live preview when creating
-- Credential count per category
-- Shared state — changes reflect instantly across all screens
-
-### 👤 Profile
-- Google OAuth login
-- Master password setup on first access
-- Security status overview
-- Encryption details & how it works
-- App version, stack, license info
-
-### ⚙️ Settings
-- Toggle **PIN lock** (configure 4-digit PIN)
-- Toggle **Face ID / Fingerprint**
-- PIN and biometric are mutually exclusive
-- Security configs cleared on logout or uninstall
-- Delete account permanently (zero-knowledge — data is unrecoverable)
+Nadie puede leer tus contraseñas. Ni nosotros.
 
 ---
 
-## ✦ Tech stack
+## ✦ Qué incluye esta versión
 
-| Layer | Technology |
+### 🔒 Seguridad
+- Cifrado de extremo a extremo con **AES-256-GCM**
+- Derivación de clave con **PBKDF2** desde la master password
+- Arquitectura **zero-knowledge** — el servidor solo almacena texto cifrado
+- Protección contra capturas de pantalla en la vista de detalle
+- **Desbloqueo biométrico** — Face ID / Huella dactilar
+- **Bloqueo por PIN** — PIN de 4 dígitos con teclado aleatorio en la pantalla de desbloqueo
+- Auto-bloqueo cuando la app pasa a segundo plano
+
+### 🗄️ Bóveda
+- Crear, editar y eliminar credenciales cifradas
+- Campos: sitio/app, usuario, contraseña, categoría, notas
+- **Indicador de fortaleza de contraseña** (barra de 5 niveles)
+- **Generador de contraseñas** — longitud configurable, mayúsculas, números, símbolos
+- Marcar credenciales como favoritas con filtro rápido
+- Búsqueda por título y usuario
+- Filtrar por categoría
+
+### 🗂️ Categorías
+- Crea categorías personalizadas con nombre, ícono (15 presets) y color (10 presets)
+- Vista previa en tiempo real al crear
+- Contador de credenciales por categoría
+- Estado compartido — los cambios se reflejan instantáneamente en todas las pantallas
+
+### 👤 Perfil
+- Login con Google OAuth
+- Configuración de master password en el primer acceso
+- Resumen del estado de seguridad
+- Detalles del cifrado y cómo funciona
+- Versión de la app, stack tecnológico e información de licencia
+
+### ⚙️ Configuración
+- Activar/desactivar **bloqueo por PIN** (configura un PIN de 4 dígitos)
+- Activar/desactivar **Face ID / Huella**
+- PIN y biometría son mutuamente excluyentes
+- Las configuraciones de seguridad se borran al cerrar sesión o desinstalar
+- Eliminar cuenta permanentemente (zero-knowledge — los datos son irrecuperables)
+
+---
+
+## ✦ Stack tecnológico
+
+| Capa | Tecnología |
 |---|---|
 | Mobile | React Native (Expo) |
 | Backend | .NET 8 / C# |
-| Database | MySQL |
-| Auth | Google OAuth 2.0 + JWT |
-| Encryption | AES-256-GCM · PBKDF2 |
-| Storage | expo-secure-store · AsyncStorage |
+| Base de datos | MySQL |
+| Autenticación | Google OAuth 2.0 + JWT |
+| Cifrado | AES-256-GCM · PBKDF2 |
+| Almacenamiento | expo-secure-store · AsyncStorage |
 
 ---
 
-## ✦ Security model
+## ✦ Modelo de seguridad
 
 ```
 Master Password
       │
       ▼
-  PBKDF2 (key derivation)
+  PBKDF2 (derivación de clave)
       │
       ▼
-  AES-256-GCM key  ──►  Encrypt credential
-                               │
-                               ▼
-                        Ciphertext + IV
-                               │
-                               ▼
-                         Sent to server
-                      (unreadable without key)
+  Clave AES-256-GCM  ──►  Cifrar credencial
+                                 │
+                                 ▼
+                          Texto cifrado + IV
+                                 │
+                                 ▼
+                           Enviado al servidor
+                        (ilegible sin la clave)
 ```
 
-The master password is stored only in `expo-secure-store` on the device.  
-The server stores `encryptedPassword` + `iv` — nothing more.  
-If you lose your master password, your data is **permanently unrecoverable**.
+La master password se almacena únicamente en `expo-secure-store` en el dispositivo.  
+El servidor guarda `encryptedPassword` + `iv` — nada más.  
+Si pierdes tu master password, tus datos son **irrecuperables de forma permanente**.
 
 ---
 
 ## ✦ Roadmap
 
-- [ ] Auto-lock timer (configurable idle timeout)
-- [ ] Failed PIN attempts lockout
-- [ ] Duplicate & weak password detection
-- [ ] Swipe-to-copy from credential list
-- [ ] Encrypted notes (standalone, no username/password)
-- [ ] Encrypted vault backup export (`.locksy` file)
-- [ ] Import from CSV / Bitwarden
+- [ ] Temporizador de auto-bloqueo (tiempo de inactividad configurable)
+- [ ] Bloqueo tras intentos fallidos de PIN
+- [ ] Detección de contraseñas duplicadas y débiles
+- [ ] Swipe para copiar usuario/contraseña desde la lista
+- [ ] Notas seguras independientes (sin usuario ni contraseña)
+- [ ] Exportar backup cifrado de la bóveda (archivo `.locksy`)
+- [ ] Importar desde CSV / Bitwarden
 
 ---
 
-## ✦ License
+## ✦ Licencia
 
-**All rights reserved © 2025 Locksy**  
-This software is proprietary. Unauthorized distribution or reproduction is prohibited.
+**Todos los derechos reservados © 2025 Locksy**  
+Este software es propietario. Se prohíbe su distribución o reproducción no autorizada.
 
 ---
 
 <div align="center">
 
-**LOCKSY** · Zero-knowledge · AES-256 · Built with ♥
+**LOCKSY** · Zero-knowledge · AES-256 · Hecho con ♥
 
 </div>
